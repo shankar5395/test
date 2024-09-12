@@ -1,28 +1,25 @@
-name: Deploy to Server
+name: CI
 
 on:
   push:
     branches:
-      - main  
+      - main
+
 jobs:
-  deploy:
-    runs-on: ubuntu-latest  
+  build-and-test:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/https://github.com/shankar5395/test.git 
+        uses: actions/https://github.com/shankar5395/test.git
 
-      - name: Set up SSH
-        uses: webfactory/git@github.com:shankar5395/test.git 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          ssh-private-key: ${{  }}  
+          node-version: '14'
 
-      - name: Deploy to Server
-        run: |
-          ssh -o StrictHostKeyChecking=no root@ip-172-31-7-178 << 'EOF'
-            cd https://github.com/shankar5395/test/edit/main/.github/workflows/deploy.yml
-            git pull origin main  
-            npm install  
-            npm run build  
-            pm2 restart app  
-          EOF
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
