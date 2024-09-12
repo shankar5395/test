@@ -1,24 +1,74 @@
-name: Deploy using SSH
+name: Deploy to Server
 
-on: [push]
-
+on:
+  push:
+    branches:
+      - main  
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  
 
     steps:
-      # Checkout repository
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2  
 
-      # Use ssh-agent to load SSH key
-      - name: Set up SSH agent
-        uses: webfactory/ssh-agent@v0.5.3
+      - name: Set up SSH
+        uses: webfactory/ssh -i "KEy.pem" ubuntu@ec2-13-127-188-80.ap-south-1.compute.amazonaws.com  
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ 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 }}  # Access the private key from GitHub Secrets
 
-      # Run deployment script (replace with your actual commands)
-      - name: Deploy
+      - name: Deploy to Server
         run: |
-          ssh user@server 'echo "Deploying..."'
-
+          ssh -o StrictHostKeyChecking=no user@your-server-ip << 'EOF'
+            cd /path/to/your/app
+            git pull origin main  
+            npm install  
+            npm run build  
+            pm2 restart app  
+          EOF
