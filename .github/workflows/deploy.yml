@@ -3,20 +3,20 @@ name: Deploy to Server
 on:
   push:
     branches:
-      
+      - main  
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest  # Use a Linux environment for deployment
+    runs-on: ubuntu-latest 
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2  # Checkout the latest code from the repository
+        uses: actions/checkout@v2  
 
       - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3  # Use the SSH agent to connect to the server
+        uses: webfactory/ssh-agent@v0.5.3  
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Access the private key from GitHub Secrets
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  
 
       - name: Deploy to Server
         run: |
@@ -28,4 +28,3 @@ jobs:
             npm run build  # Build the project (if applicable)
             pm2 restart app  # Restart your app (if you're using PM2 or another process manager)
           EOF
-   
