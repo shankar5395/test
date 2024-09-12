@@ -8,11 +8,11 @@ on:
 jobs:
   example-job:
     runs-on: ubuntu-latest 
-
     steps:
       - name: Checkout code
-        uses: actions/https://github.com/shankar5395/test.git  
-
+        uses: actions/checkout@v2 
+        
       - name: Run a simple script
-        run: echo "Hello, GitHub Actions!"  
+        run: echo "Hello, GitHub Actions!"
+
 
