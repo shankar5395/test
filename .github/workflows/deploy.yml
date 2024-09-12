@@ -13,14 +13,14 @@ jobs:
         uses: actions/https://github.com/shankar5395/test.git 
 
       - name: Set up SSH
-        uses: webfactory/ssh -i "KEy.pem" ubuntu@ec2-13-127-188-80.ap-south-1.compute.amazonaws.com  
+        uses: webfactory/git@github.com:shankar5395/test.git 
         with:
-          ssh-private-key: ${{ git@github.com:shankar5395/test.git }}  
+          ssh-private-key: ${{  }}  
 
       - name: Deploy to Server
         run: |
           ssh -o StrictHostKeyChecking=no root@ip-172-31-7-178 << 'EOF'
-            cd .github/workflows/deploy.yml
+            cd https://github.com/shankar5395/test/edit/main/.github/workflows/deploy.yml
             git pull origin main  
             npm install  
             npm run build  
