@@ -1,0 +1,31 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Use a Linux environment for deployment
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # Checkout the latest code from the repository
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3  # Use the SSH agent to connect to the server
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Access the private key from GitHub Secrets
+
+      - name: Deploy to Server
+        run: |
+          ssh -o StrictHostKeyChecking=no user@your-server-ip << 'EOF'
+            cd /path/to/your/app
+            git pull origin main  # Pull the latest code from the GitHub repository
+            # Run any additional deployment commands here, like building the project, restarting services, etc.
+            npm install  # Install dependencies (if applicable)
+            npm run build  # Build the project (if applicable)
+            pm2 restart app  # Restart your app (if you're using PM2 or another process manager)
+          EOF
+   
