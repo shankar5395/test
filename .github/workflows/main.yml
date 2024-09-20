@@ -1,4 +1,4 @@
-name: Restart SSH on Remote Server and List Active, Inactive, and Failed Services
+name: List All Services on Remote Server
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main  # Change this to your default branch if needed
 
 jobs:
-  restart-ssh:
+  list-services:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,20 +18,22 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Restart SSH service and show active, inactive, and failed services on remote server
+      - name: Get all service statuses on remote server
         run: |
           ssh -v -o StrictHostKeyChecking=no ubuntu@13.233.96.163 << 'EOF'
-          echo "Restarting SSH service..."
-          sudo systemctl restart ssh
-          echo "SSH service restarted. Current SSH status:"
-          sudo systemctl status ssh
-          
           echo "Listing all active services:"
           sudo systemctl list-units --type=service --state=active
           
           echo "Listing all inactive services:"
           sudo systemctl list-units --type=service --state=inactive
-          
+
           echo "Listing all failed services:"
           sudo systemctl list-units --type=service --state=failed
+
+          echo "Listing all enabled services:"
+          sudo systemctl list-unit-files --type=service | grep enabled
+
+          echo "Listing all disabled services:"
+          sudo systemctl list-unit-files --type=service | grep disabled
           EOF
+
