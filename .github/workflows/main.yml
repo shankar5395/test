@@ -1,4 +1,4 @@
-name: Deploy File via SSh
+name: Deploy File via SSH
 
 on:
   push:
@@ -16,17 +16,12 @@ jobs:
     - name: Set up SSH
       run: |
         mkdir -p ~/.ssh/
-        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-      # Load the private SSH key from GitHub Secrets
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
     - name: Copy python.py to the server
       run: |
-       scp -o StrictHostKeyChecking=no python.py $REMOTE_USER@$REMOTE_HOST:/opt/
-
-      # Use environment variables for SSH user and server address
+        scp -o StrictHostKeyChecking=no python.py $REMOTE_USER@$REMOTE_HOST:/opt/
       env:
         REMOTE_USER: ${{ secrets.SERVER_USER }}
         REMOTE_HOST: ${{ secrets.SERVER_HOST }}
