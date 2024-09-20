@@ -20,7 +20,7 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
     - name: Copy python.py to the server
       run: |
-        scp -o StrictHostKeyChecking=no python.py $REMOTE_USER@$REMOTE_HOST:/opt/
+        scp -o StrictHostKeyChecking=no python.py $REMOTE_USER@$REMOTE_HOST:/opt
       env:
         REMOTE_USER: ${{ secrets.SERVER_USER }}
         REMOTE_HOST: ${{ secrets.SERVER_HOST }}
