@@ -18,15 +18,11 @@ jobs:
         mkdir -p ~/.ssh/
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        # Add the server to known hosts
-        ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
-
-    - name: List files
-      run: ls -la  # Debug: List files to ensure python.py exists
-
     - name: Copy python.py to the server
       run: |
-        scp -v -o StrictHostKeyChecking=no ./python.py $REMOTE_USER@$REMOTE_HOST:/home/ubuntu/
+        scp -o StrictHostKeyChecking=no python.py $REMOTE_USER@$REMOTE_HOST:/opt/
       env:
         REMOTE_USER: ${{ secrets.SERVER_USER }}
         REMOTE_HOST: ${{ secrets.SERVER_HOST }}
+
+       
