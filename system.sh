@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Restart SSH service
-sudo systemctl restart sshd
+sudo systemctl restart ssh
 
 # Check the status of the SSH service
 if systemctl status sshd | grep "active (running)"; then
