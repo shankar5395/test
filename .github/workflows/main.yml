@@ -32,7 +32,7 @@ jobs:
 
           echo "Listing all enabled services:"
           sudo systemctl list-unit-files --type=service | grep enabled
-
+          
           echo "Listing all disabled services:"
           sudo systemctl list-unit-files --type=service | grep disabled
           EOF
