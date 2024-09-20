@@ -1,4 +1,4 @@
-name: Restart SSH on Remote Server and List All Services
+name: Restart SSH on Remote Server and List Active and Inactive Services
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Restart SSH service and show all services on remote server
+      - name: Restart SSH service and show active & inactive services on remote server
         run: |
           ssh -v -o StrictHostKeyChecking=no ubuntu@13.233.96.163 << 'EOF'
           echo "Restarting SSH service..."
@@ -26,6 +26,9 @@ jobs:
           echo "SSH service restarted. Current SSH status:"
           sudo systemctl status ssh
           
-          echo "Listing all services and their statuses:"
-          sudo systemctl list-units --type=service --all
+          echo "Listing all active services:"
+          sudo systemctl list-units --type=service --state=active
+          
+          echo "Listing all inactive services:"
+          sudo systemctl list-units --type=service --state=inactive
           EOF
