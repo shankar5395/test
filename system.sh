@@ -1,14 +1,15 @@
 #!/bin/bash
 
 # Check the status of the SSH service
-if systemctl is-active --quiet ssh; then
-    echo "SSH service is running."
-else
+status=$(systemctl is-active ssh)
+
+if [ "$status" != "active" ]; then
     echo "SSH service is not running. Restarting..."
     sudo systemctl restart ssh
-    if systemctl is-active --quiet ssh; then
-        echo "SSH service restarted successfully."
-    else
-        echo "Failed to restart SSH service."
-    fi
+else
+    echo "SSH service is already running."
 fi
+
+# Show the status of the SSH service
+echo "Current SSH service status:"
+systemctl status ssh
