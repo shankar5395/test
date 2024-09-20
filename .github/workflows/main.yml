@@ -18,8 +18,11 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-     - name: Restart SSH service on remote server
-  run: |
-    ssh -v -o StrictHostKeyChecking=no 13.233.96.163 "sudo systemctl restart ssh"
-
-   
+      - name: Restart SSH service on remote server
+        run: |
+          ssh -o StrictHostKeyChecking=no user@13.233.96.163 << 'EOF'
+          echo "Restarting SSH service..."
+          sudo systemctl restart ssh
+          echo "SSH service restarted. Current status:"
+          sudo systemctl status ssh
+          EOF
