@@ -25,7 +25,8 @@ jobs:
     - name: Copy python.py to the server
       run: |
        scp -o StrictHostKeyChecking=no python.py $REMOTE_USER@$REMOTE_HOST:/opt/
-        # Use environment variables for SSH user and server address
+
+      # Use environment variables for SSH user and server address
       env:
         REMOTE_USER: ${{ secrets.SERVER_USER }}
         REMOTE_HOST: ${{ secrets.SERVER_HOST }}
